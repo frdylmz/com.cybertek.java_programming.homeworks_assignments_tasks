@@ -60,6 +60,11 @@ FRAGMENT 2:
 /* 3 */	static {System.out.println("Parent static  block 2");}
 	}
 
+
+	To demonstrate what the code flow will look like, I have numbered the lines
+	within the code per their order of execution, seen above.
+	
+
 HERE IS MY ANALYSIS / EXPLANATION OF WHAT'S GOING ON:
 	In Java, the order of initializations is as follows:
 	1.	Any static fields get initialized as soon as the Class is referred to. 
