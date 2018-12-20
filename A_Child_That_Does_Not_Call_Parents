@@ -1,0 +1,114 @@
+@Author>>>  SHAHIN GADIMOV
+			BATCH 10
+			SDET - 2018 FALL
+
+THIS IS A DIAGRAM OF A SAMPLE PARENT- AND CHILD-CLASS THAT WILL BE EVALUATED
+	WHILE ANSWERING THE QUESTIONS OF THIS DISCUSSION:
+
+	public class Parent {
+		String name;
+
+		public Parent() {
+			this("unknown");
+			System.out.println("We don't know anything about the parents, yet...");
+		}
+		public Parent(String name) {
+			this.name = name;
+			System.out.println("The parent's name is declared.");
+		}
+	}
+
+
+	public class Child extends Parent {
+		char gender;
+		int age;
+		
+		public Child() {
+			this("unknown", 'x', 0);
+			System.out.println("Come on... You must know something about this child...");
+		}
+		public Child(char gender) {
+			this("unknown", gender, 0);
+			System.out.println("This must be a newborn");
+		}
+		public Child(int age) {
+			this("unknown", 'x', age);
+			System.out.println("This must be a newborn whose gender is kept as surprise");
+		}
+		public Child(char gender, int age) {
+			this("unknown", gender, age);
+			System.out.println("You guys must have thought about the name before"
+				+ " the child is born...");
+		}
+		public Child(String name, char gender, int age) {
+			super(name);
+			this.gender = gender;
+			this.age = age;
+			System.out.println("Definitely your child. You know all there is about her!");
+		}
+	}
+
+
+
+The following is a Q&A session for the discussion:
+	Q1:	Where can a constructor be called in a class (other than being called when the
+		object is created)?
+
+	A1:	There are two other calls to constructors (besides for the purposes of creating
+		an instance of the class):
+		1.	within the class itself: this is a common experience when overloading 
+			constructors, as seen in the example above (lines 14, 29, 33, 37, 41).
+			This is done by using this(); 
+		2.	by reaching out to constructor of the parent class: This is actually a DEFAULT
+			action performed by Java compiler. This takes place by using super(); method.
+			What happens is, every time a class extends another class (which is always,
+			considering that all classes extend the Object class unless they extend any
+			other specific class), the default constructor or at least one constructor 
+			(if we have overloaded the constructors), calls super(); either by default to
+			the parent class's no args constructor, or by explicitly to parent class's 
+			overloaded constructor. You can see the usage of super(name); on line 46. Also
+			even if I haven't put it explicitly within the code, but on line 18,  before 
+			the this.name = name; line, Java compiler is to include super(); that is 
+			calling Object class's default constructor.
+
+	Q2:	What keyword do you use to call a constructor in another constructor of the same 
+		class?
+
+	A2:	this(); keyword. Please see the above example lines 14, 29, 33, 37, 41.
+
+	Q3:	What is the first line of any constructors if not defined otherwise by the user?
+		How to change this implicit behavior?
+
+	A3:	The first line of any constructor, unless defined explicitly is super();. In the 
+		above example, we have an implicit super(); provided by default by Java compiler
+		(see line 18); we have an explicit super(name); on line 46; we don't have any
+		implicit this(); methods since we have declared all of them explicitly in order
+		to control the flow of our code.
+		Assuming that we didn't have any explicit declarations of this() and super() 
+		methods, the Java compiler would've implicitly called super(); on our no args
+		constructor (if one is defined) or on the first constructor that has been 
+		declared; and would've implicitly called this(); on all other overloaded 
+		constructors.
+
+	Q4:	Since constructor, is not inherited in a subclass, how do you call different 
+		constructors of super class?
+
+
+	A4:	Refer to line 46 in my example above. We can pass parameters within the super();
+		that will be checked against the overloaded constructors within the Parent class.
+		When Java compiler finds exact match of those parameters (or best castable
+		match), it will proceed with the compilation. Otherwise, the compilation will 
+		fail throwing an error.
+
+	Q5:	As the title suggests, given a subclass has multiple constructors, is there any
+		chance, none of them call any version of super class's constructor when user
+		change the implicit call behavior of the compiler by using this(args)?
+
+	A5:	Logically, and technically, no. It is possible to imagine a class that doesn't
+		depend on any other class, however, should we have all constructors call each
+		other by using this(); we are technically creating an infinite loop where there
+		is no end of program (where is the calling going to stop?). 
+		When it comes to the technical part of this question, unlike infinite loops
+		that are not too obvious, Java compiler will catch this infinity mistake by 
+		the programmer and will not allow the code to compile (I know, because I double
+		checked :)). 
