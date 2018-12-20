@@ -1,0 +1,50 @@
+@Author>>>  SHAHIN GADIMOV
+			BATCH 10
+			SDET - 2018 FALL
+
+	Below, you will find the simple code that takes care of the following task in hand:
+
+/**	Given an array of ints nums
+*		[1, 2, 3, 4, 2, 3, 4, 44, 12, 20, 100, 33, 100, 4]
+*	Using a nested loop print only values that appear once(true meaning of unique):
+*		1 44 12 20 33
+*	Do not use any strings!
+*/
+	I am using java.util.Arrays methods here which will require you to 
+		import java.util.Arrays;
+	to be able to compile this code in your machine.
+
+	The code also contains lengthy comments on each lane to make it easy to understand
+		the flow of logic. Since the comments are a little long, they can wrap to the 
+		next line, unfortunately, makint the code hard to read. Therefore, either take
+		off the comments, or move them to the bottom, or use full screen to be able
+		to follow the logic.
+
+/*	CODE IMPLEMENTATION STARTS HERE, NO METHOD DECLARATION IS PROVIDED */
+
+	int[] original = {1, 2, 3, 4, 2, 3, 4, 44, 12, 20, 100, 33, 100, 4}; // original array
+	int[] ret = new int[0]; // array that I am going to populate by unique numbers and return
+	int index = 0; // index that will be used to populate the return array of unique numbers
+	
+	for (int i = 0; i < original.length; i++) { // main loop that will run for each element of original array
+		boolean isUnique = true; // flag to check for uniqueness
+		
+		for (int j = 0; j < original.length; j++) { // second loop that will run for each element of original array
+			
+			if (i != j && original[i] == original[j]) { // if condition to check for uniqueness of original array's element
+				isUnique = false; // should an element of original array be found anywhere else, my flag becomes false
+				break;  // if flag is flipped, no need to continue, save some CPU power
+			}
+			
+		}
+		
+		if (isUnique) { // if the flag has not been flipped, means this element is unique
+			ret = Arrays.copyOf(ret, ret.length + 1); // create a room in my return array for one more element
+			ret[index++] = original[i]; // add this unique element into my return array and increase the index for future use
+		}
+		
+	}
+	
+	System.out.println(Arrays.toString(ret)); // print out the return array to see what we are getting
+
+/*	END OF CODE */
