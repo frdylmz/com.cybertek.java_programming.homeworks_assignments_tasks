@@ -1,0 +1,105 @@
+@Author>>>  SHAHIN GADIMOV
+			BATCH 10
+			SDET - 2018 FALL
+
+THE FOLLOWING IS GIVEN:
+
+	class Student{
+	    public int age;
+
+	    public Student(int age){
+	         this.age=age;
+	    }
+
+	}
+
+	public class PassByValue {
+
+	  	public static void main(String[] args) {
+
+			int a = 10, b = 20;
+			
+			changeNum(a);
+/*	OUTPUT:	num value inside: 15
+			System.out.println("a value after changeNum call "+ a);
+/*	OUTPUT:	a value after changeNum call 10 */
+			Student st = new Student(21);
+			
+			changeStudent(st);
+/*	OUTPUT:	s age value inside 29 */
+			System.out.println("st age value after changeStudent:"+ st.age);
+/*	OUTPUT:	st age value after changeStudent:21 */
+
+		    changeStudentAge(st);
+/*	OUTPUT:	s age value inside 29 */
+		    System.out.println("st age value after changeStudentAge:"+st.age);
+/*	OUTPUT:	st age value after changeStudentAge:29
+
+		    switchNum(a, b);
+/*	OUTPUT:	i1 inside var:20 |i2 inside val:10 */
+			System.out.println("a val after switchNum method call:"+ a 
+					+" |b val after switchNum method call val:"+ b);
+/*	OUTPUT:	a val after switchNum method call:10 |b val after switchNum method call val:20 */
+
+			Student st1 = new Student(30);
+			Student st2 = new Student(35);
+		    
+		    switchStudent(st1, st2);
+/*	OUTPUT:	st1 age value inside:35 | st2 age value inside:30 */
+			System.out.println("st1 age val after switchStudent:"+ st1.age 
+					+"| st2 age val after switchStudent:"+ st2.age);
+/*	OUTPUT:	st1 age val after switchStudent:30| st2 age val after switchStudent:35 */
+	  	}
+
+	  	static void changeNum(int num) {
+			num = num + 5;
+			System.out.println("num value inside:" + num);
+	  	}
+
+	  	static void switchNum(int i1, int i2) {
+			int temp = i1;  //store i1 value to temp variable
+			i1 = i2;        //store i2 value to i1 variable
+			i2 = temp;      //store temp value to i2 variable 
+			System.out.println("i1 inside val:"+ i1 
+					  +" |i2 inside val:"+ i2);
+	  	}
+
+	  	static void changeStudent(Student s) {
+		    // assigning new value inside will lose the reference to original object
+		    // copied reference now pointed to new object
+		    s = new Student(29); 
+			System.out.println("s age value inside "+ s.age);
+	  	}
+
+	  	static void changeStudentAge(Student s) {
+  			//assigning new age value using copy of reference that point to same object 
+  			//using copied reference to change field will change original object
+			s.age = 29; 
+			System.out.println("s age value inside " + s.age);
+  		}
+
+  		static void switchStudent(Student s1, Student s2) {
+			Student temp = s1; // store s1 value to a temp variable
+			s1 = s2;	   // set s2 value to s1 variable 
+			s2 = temp;	   // set temp value to s2 variable 
+			System.out.println("st1 age value inside:"+ s1.age 
+				+"| st2 age value inside:"+ s2.age);
+  		}
+
+	}
+
+The outputs of this code fragment are commented /* */ on respective lanes.
+My outcome from this example is as follows:
+	Pass by value means, methods in Java are designed to take a copy of the values that
+	are passed into these methods as arguments. For an example:
+	* when creating a method that takes two int arguments, we can choose to declare additional
+		local variables to copy these arguments and then manipulate them, or we can directly 
+		manipulate the int arguments. In either case, the arguments are not changed because
+		even if we return another primitive or reference, we are returning an outcome of the 
+		method statements, a completely new primitive or reference.
+	* when the subject matter at hand is object references, then the picture changes a little
+		> if we choose to conduct operations directly on object references that are passed in
+			as arguments, we are changing the properties of that instance
+		> if we are to create copies of these instances within our methods, then we are not
+			changing the properties of the instances passed in as arguments, but we are working
+			on the copies of these instances that are separate objects on their own.
