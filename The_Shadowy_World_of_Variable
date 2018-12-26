@@ -1,0 +1,89 @@
+@Author>>>  SHAHIN GADIMOV
+			BATCH 10
+			SDET - 2018 FALL
+
+As we learned , fields are not overriden but only hidden
+Given below Code Example:
+
+	interface Computable{
+		short secret = 8;
+	}
+
+	interface Uncomputable{
+		int secret = 10;
+	}
+
+	class Math {
+	    public static final double secret = 2;
+	}
+
+	class ComplexMath extends Math {
+		public static final double secret = 4;
+	}
+
+	class InfiniteMath extends ComplexMath implements Computable,Uncomputable{
+		public static final double secret = 6;
+		  
+		public static void main(String[] args) {
+			long secret = 12;
+			Math math = new InfiniteMath();
+			System.out.println(math.secret); 
+	    } 
+	} 
+
+Question 1 : How do we Print all secret variable values from everywhere? 
+			 Use print statement to print each of them separately.
+
+	A1:	These secret variables, have one common secret>>they are all STATIC variables
+		(including the variables within interfaces Computable and Uncomputable, even
+		though they are not declared as static, they are PUBLIC and STATIC and FINAL
+		by default, remember: interfaces can ONLY have CONSTANT FIELDS).
+		As it is the general rule with all static fields and methods, we can access
+		them from anywhere (as long as we are conducting necessary imports) by simply
+		using the class names (these variables are aka Class variables, and similar
+		methods are aka Class methods aka utilities). The following would be 
+		examples of how we would use them within print statements:
+			System.out.println(Computable.secret);
+			System.out.println(Uncomputable.secret);
+			System.out.println(Math.secret);
+			System.out.println(ComplexMath.secret);
+			System.out.println(InfiniteMath.secret);
+
+		p.s. Should we utilize 'import static', we are not even required to use the
+		class name. However, should we do so within the classes that also have fields
+		with the same name, this would cause confusion.
+
+Optional Question 2 : What if you are only allowed to use non-static way to 
+					  access fields as above example? Hint: CASTING           
+	
+	A2:	Primarily, there is no way we can convert the secret constants of interfaces
+		Computable and Uncomputable into reference variables. They can only be final
+		STATIC. However, we can still access them and all other variables per se, in
+		a non-static way by calling them as reference variables.
+		It is as simple as 
+			System.out.println(new Math().secret);
+			System.out.println(new ComplexMath().secret);
+			System.out.println(new InfiniteMath().secret);
+
+		What we did above is we created an instance of these classes (by saying new
+		ClassName()) and called the secret variables as instance variables.
+
+		However, the same CANNOT be applied for interfaces Computable and 
+		Uncomputable. Because, these are interfaces without any Constructors. We
+		cannot say:
+			System.out.println(new Computable().secret); //will not compile
+			System.out.println(new Uncomputable().secret); //will not compile
+			
+		The way around this is casting. We can do the following:
+			Computable secretComp = new InfiniteMath();
+			Uncomputable secretUncomp = new InifniteMath();
+
+		It might look like we are creating new objects out of our interfaces. But
+		actually, what we are doing is, we are using our interfaces as reference
+		types and we are creating objects out of our concrete class InfiniteMath()
+		that extends these interfaces.
+		By the law of POLYMORPHISM, when we give the following commands, we see
+		the secret variables of our interfaces even though our object type is
+		of InfiniteMath().
+			System.out.println(secretComp.secret); 	// prints 8, not 12
+			System.out.println(secretUncomp.secret); // prints 10, not 12
