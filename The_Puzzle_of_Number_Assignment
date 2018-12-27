@@ -1,0 +1,121 @@
+@Author>>>  SHAHIN GADIMOV
+			BATCH 10
+			SDET - 2018 FALL
+
+We have learned that for primitive type variable to be correctly assigned to a value 
+	it has to be in a range that the type can hold, so larger range primitive type 
+	can hold smaller range primitives (implicit upcasting)
+
+ 	For example  int a = 200;  long b = a ;
+
+If it's not in range it will fail to compile unless an explicit cast to the type 
+	is made. 
+
+	For example, 
+		int c = b; 
+	fails to compile because the type of c variable int, b variable is long, a cast
+	is needed: 
+		int c = (int) b (explicit downcasting) 
+
+We have also learned that for reference type variable to be correctly assigned 
+	to a value. The object type can be same as reference type: for example 
+		Dog d = new Dog(); 
+
+	or the object type can be a subtype of reference type: for example 
+		Animal d = new Dog(); 
+
+	or the object type can be implementing the class type of interface: for example
+		Movable d = new Dog(); 
+
+Here where things can get tricky when we work with numbers Wrapper Classes since it 
+	does autoboxing and unboxing whenever needed. 
+
+Wrapper Type like Byte, Short, Integer, Long, Float, and Double are a reference type 
+	and does not have an inheritance relationship between each other!
+
+However, they are all subclasses of Abstract Class called Number from the 
+	java.lang package.
+
+Let's see a few examples: 
+
+	Integer a1 = new Integer(10) ; GOOD  
+	Integer a2 = 10  ; still GOOD because of auto-boxing;
+
+This is where things start becoming tricky, below assignment easily misleads the user 
+	to think of range and assume it will work 
+
+	Long a3 = new Integer(10);  BAD 
+	because of reference type look for a relationship, not range, 
+	Integer IS NOT Subclass of Long.
+
+How about this then: 
+	Long a4 = 10; 
+	even trickier to let you think it will first make it to 10L then Auto-box it 
+	then make the assignment. WRONG!
+
+Any number literal within the range of int is automatically promoted to int. 
+	Compiler will not make more step to make it long then auto-boxed to Long. 
+	What compiler do in an above situation is cover 10 --> new Integer(10) and that's 
+	the only step it will take which lead compiler error as mentioned above. 
+
+As stated earlier, Number Class from java.lang is an abstract superclass of all 
+	numeric Wrapper Classes, so we can safely do a polymorphic assignment like this 
+	since all numeric wrapper type can pass (numVar instanceof Number) with an implicit cast.
+		Number n = (byte)10; 
+		Number n1 = (short) 10; 
+		Number n2 = 10; 
+		Number n3 = 10L; 
+		Number n4 = new Float(123.12f); 
+		Number n5 = new Double(1.1d);
+
+Whenever making a decision about whether a variable value can be passed to a method as 
+	an argument or a variable value can be returned from a method, always try to answer
+	this question first: can we assign such variable to variable with method parameter
+	type (if passing argument) or return type (if returning value) in either situation.
+	This is very useful deciding overriding and overloading method calls.
+
+
+Q1. How to downcast all the nx(n1,n2,n3..) Number variables to their specific types? 
+	For example  Byte b = (Byte) n;
+
+	A1:	In Java, the idea of polymorphism is meant to serve the purpose of having the
+		code be reusable, flexible and easier to manipulate. However, what we are 
+		seeing above, is not the example of that instance :) 
+		However, assuming that we are in such a position as stated in this question,
+		in order to have our code compile, we will need to downcast each n element
+		into its relative wrapper class. Here, we will need help from IDE because
+		IDE's (such as Eclipse or IntelliJ) will let us know beforehand why saying
+		Long l1 = n2; will not compile (it will give us a compiler error saying
+		that we are casting wrongly, we need to either switch the reference type
+		to Integer or cast the 10 to long by saying (long)10;). 
+		However, in circumstances that we don't have the support tools of IDE's, we
+		can utilize the INSTANCEOF keyword to make sure that our code does not 
+		throw a compile error. So, the solution I see would be as follows:
+			if (n instanceof Byte)
+				Byte b = n;
+			else if (n instanceof Short)
+				Short s = n;
+			else if (n instanceof Integer)
+				Integer i = n;
+			else if (n instanceof Long)
+				Long l = n;
+			else if (n instanceof Float)
+				Float f = n;
+			else if (n instanceof Double)
+				Double d = n;
+
+Q2. In your own word, what did you learn from this?  (open question)
+
+	A2:	Polymorphism is a great feature of OOP. However, is good hands. If we are
+		to write a code without the knowledge or vision in regards to where we are
+		headed with the code, we can easily get to a point of no return where it 
+		will be difficult for our own selves to understand what our code is trying
+		to do and why it is not compiling.
+		Polymorphism is used good if we know that we might need to switch amongs the
+		child classes in order to access more features. 
+		For example, when we are declaring WebDriver driver = new ChromeDriver(); we
+		are looking forward to cases where after writing the hundreds lines of code
+		we can simply go to the top and say driver = new FirefoxDriver(); and have
+		the same code compile and run and this time do all the operations on a 
+		Firefox browser (not the Chrome browser we built it on) without any hickups 
+		or need to rewrite the whole thing specifically for Firefox.
