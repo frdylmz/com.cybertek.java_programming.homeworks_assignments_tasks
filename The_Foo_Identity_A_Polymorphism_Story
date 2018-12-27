@@ -1,0 +1,91 @@
+@Author>>>  SHAHIN GADIMOV
+			BATCH 10
+			SDET - 2018 FALL
+
+Long long ago , far far away , there was a town called Objectville. There was a 
+	Person called Foo, Foo is a Doctor, interestingly every doctor in Objectville 
+	is also a Motorcyclist .
+Some know Foo as just a Person like themselves who eat(), sleep(). Others know him 
+	as Doctor as he is and know he can doOperation(); His Motorcycle group know him 
+	as a Motorcyclist who can ride().
+
+So we can extract this from this passage: 
+	Doctor extends Person implements Motorcyclist { }
+
+At hospital 
+	Doctor foo = new Doctor(); 
+
+Foo can do everything a Person, Doctor and Motorcyclist can do if you call him 
+	doctor outside Hospital 
+	Person pFoo = (Person) foo;  or  
+	Person pFoo = foo;
+Foo can only do general Person related if you refer him as Person
+
+In his motorcycle group 
+	Motorcyclist mFoo = (Motorcyclist) foo ; or 
+	Motorcyclist mFoo =  foo;
+Foo can only do Motorcyclist behavior if you refer him as Motorcyclist
+
+One day Foo was heading home by bus with full of others (each of them sub class of 
+	Person and implicitly upcasted to Person).
+	Person[] people = { new FireFighter(), new Teacher() ,foo,  new Student().. };
+
+Suddenly someone faint and need an operation ASAP. In order to help the man the 
+	Person has to be Doctor. So bus driver tried to cast each of them to check whether 
+	one can help the man.
+
+First Person: 
+	Person person1 =  people[0] ;    
+	Doctor d1 =  (Doctor) person1;
+
+	BOOM ClassCastException at RUNTIME! cant cast a firefighter to a doctor
+
+Second Person : 
+	Person person2 =  people[1] ;    
+	Doctor d2 =  (Doctor) person2
+
+	BOOM ClassCastException at RUNTIME! cant cast a teacher to a doctor
+
+Third Person : 
+	Person person3 =  people[2] ;
+	Doctor d3 =  (Doctor) person3
+
+	YAY! person3 is foo and he is a Doctor , cast successful ! He can doOperation!
+
+Foo did the operation and saved the day, even he was just a Person , underlining 
+	identity is a Doctor.
+
+Now the man is saved ,he need to be at hospital for final checkup. Bus driver asked 
+	again is there any Motorcyclist. Having hit class cast exception few times 
+	before finding foo, Bus driver decide to check each person with instanceof keyword
+	before casting them for safety. 
+
+	person1 instanceof Motorcyclist and he tried same thing for everyone . 
+
+It turned out foo is also a Motorcyclist  along with few others who implemented 
+	Motorcyclist interface. So he took the man to hospital as Motorcyclist
+	Motorcyclist m = foo ; 
+
+At hospital , he was told only doctors are allowed in with him and he need to be 
+	downcasted
+	Doctor docFoo = (Doctor) m ; 
+
+Since underlying identity of foo is still Doctor , he was successfully downcasted to
+	Doctor. From the beginning till end, even though foo was referred by multiple 
+	different references (Doctor, Person, Motorcyclist) , there was only one object 
+	foo has been pointing to, What a Polymorphic Day ! 
+
+What did you learn from this? Open question
+
+ANSWER:	This is a great example of how polymorphism can make the code reusable and 
+		flexible.
+		By declaring only one variable instance of Doctor, we can polymorphically
+		access its super-class and implemented interface, as long as we have our
+		casting done correctly. 
+	 	In a long run, this also saves us a lot of heap space and makes our code 
+	 	compile and complete faster because this way we are avoiding creation of 
+	 	multiple objects that will require us to null them in order to have them
+	 	garbage collected when the time comes.
+	 	This also makes our code easy to read because, we can create one foo
+	 	variable which we can then switch to where it is pointing to by casting
+	 	it accordingly.
