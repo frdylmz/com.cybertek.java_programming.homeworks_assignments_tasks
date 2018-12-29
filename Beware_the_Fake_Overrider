@@ -1,0 +1,127 @@
+@Author>>>  SHAHIN GADIMOV
+			BATCH 10
+			SDET - 2018 FALL
+
+Given the following Java program, answer the follow-up questions.
+
+public class ZooActivity {
+
+	public static void main(String[] args) {
+		
+		ZooStaff zs = new ZooLionExpert();		
+		Animal animal = zs.getAnimal();
+		System.out.println(animal.name);		
+		Animal.makeNoise();
+		zs.feedAnimal(animal);
+		System.out.println("------------------");
+		Lion lion = (Lion) animal;
+		System.out.println(lion.name);
+		Lion.makeNoise();
+		zs.feedAnimal(lion);
+
+	}
+}
+
+class Animal {
+
+	String name="Animal Name";
+
+	public void eat() {
+		System.out.println("all animal eat");
+	}
+	
+	public static void makeNoise() {
+		System.out.println("Animal static noise");
+	}
+}
+class Lion extends Animal {
+
+	String name="Lion Name";
+	
+	public void eat() {
+		System.out.println("Lion is eating");
+	}
+	
+	public static void makeNoise() {
+		System.out.println("Lion static noise");
+	}
+}
+
+class ZooStaff {
+
+	public Animal getAnimal() {
+		System.out.println("ZooStaff getting animal");
+		Animal a = new Animal();
+		return a;
+	}
+	public void feedAnimal(Animal b) {
+		System.out.println("ZooStaff feeding animal");
+		b.eat();
+	}
+}
+
+class ZooLionExpert extends ZooStaff {
+
+	public Lion getAnimal() {
+	      System.out.println("ZooLionExpert getting lion");
+		Lion a = new Lion();
+		return a;
+	}
+	public void feedAnimal(Lion b) {
+	      System.out.println("ZooLionExpert feeding Lion");
+		b.eat();
+	}
+}
+
+1. What members of these classes are being overridden and by what?
+
+	ANSWER:	Within class Lion extends Animal:
+				- String name; field is being HIDDEN (not overriden)
+				* eat() method is being OVERRIDEN
+				- makeNoise() static method is being HIDDEN (not overriden)
+
+			Within class ZooLionExpert extends ZooStaff:
+				* getAnimal() method is being OVERRIDEN
+				- feedAnimal() method is being OVERLOADED (not overriden)
+
+2. Can variables/fields be overridden?
+	
+	ANSWER:	No. We have seen that neither variables/fields, nor static methods can
+			be overriden, they can be hidden. What this means is that if we create
+			a reference variable of a super-class per the object variable of a 
+			sub-class, if we call the fields or static method of that variable, 
+			unlike is the case with overridden methods, we will get the field
+			values / static method actions of the reference type, not the object
+			type.
+
+3. What kind of method can be overridden (static vs instance)?
+
+	ANSWER:	As seen and stated above, only INSTANCE methods can be overridden.
+
+4. WHO is the FAKE OVERRIDER in this program (which method is not overridden as 
+	it seems) or in your own word, what did you learn from this program (open 
+	question, any answer will get 5 points by default, more points are possible by
+	explanation)?
+
+	ANSWER:	The feedAnimal() method seen in ZooStaff and ZooLionExpert classes is
+			the fake overrider. 
+			Even though in the first glance it might seem as if this method is 
+			being overridden in these classes (since the name is the same, return
+			type is the same, ZooLionExpert extends the ZooStaff), the method
+			signature is actually not the same. Within ZooStaff class, the method
+			parameter is of Animal() type, whereas in ZooLionExpert class, the
+			method parameter is of Lion() type. Even though Lion IS-A Animal 
+			(Lion extends Animal), not all animals are Lion. So, if there is an 
+			other class that extends the Animal class, and if we call this 
+			method by using the reference type of Animal class, our call to this
+			method will not fail and it will auto-cast (implicitly cast) to the 
+			feedAnimal() method of the Animal class, not the Lion class.
+			This is similar to the following overloading:
+				public void getNumber(Object number) { }
+				public void getNumber(Integer number) { }
+				public void getNumber(Long long) { } and etc.
+
+			If the program would've had the following signature for the method
+			within the ZooLionExpert class, then this would have been an example
+			of method overriding:
+				public void feedAnimal(Animal b) { /* code here */ }
