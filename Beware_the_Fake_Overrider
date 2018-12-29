@@ -98,7 +98,7 @@ class ZooLionExpert extends ZooStaff {
 
 	ANSWER:	As seen and stated above, only INSTANCE methods can be overridden.
 
-4. WHO is the FAKE OVERRIDER in this program (which method is not overridden as 
+4. Who is the FAKE OVERRIDER in this program (which method is not overridden as 
 	it seems) or in your own word, what did you learn from this program (open 
 	question, any answer will get 5 points by default, more points are possible by
 	explanation)?
